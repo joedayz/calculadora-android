@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -49,13 +50,24 @@ public class TipAdapter extends RecyclerView.Adapter<TipAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-
+        private View view;
         @Bind(R.id.txtContent)
         TextView txtContent;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            this.view = itemView;
+            ButterKnife.bind(this, view);
         }
+    }
+
+    public void addElement(TipRecord element){
+        dataset.add(0, element);
+        notifyDataSetChanged();
+    }
+
+    public void clear() {
+        dataset.clear();
+        notifyDataSetChanged();
     }
 }

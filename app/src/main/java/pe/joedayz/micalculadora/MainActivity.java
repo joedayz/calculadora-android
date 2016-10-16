@@ -11,11 +11,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Date;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pe.joedayz.micalculadora.fragment.TipHistoryListFragment;
 import pe.joedayz.micalculadora.fragment.TipHistoryListFragmentListener;
+import pe.joedayz.micalculadora.model.TipRecord;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,10 +63,15 @@ public class MainActivity extends AppCompatActivity {
             double tip = total * (tipPercentage/100d);
 
 
+            TipRecord tipRecord = new TipRecord();
+            tipRecord.setBill(total);
+            tipRecord.setTipPercentage(tipPercentage);
+            tipRecord.setTimestamp(new Date());
+
 
             String strTip = String.format(getString(R.string.global_message_tip), tip);
 
-            fragmentListener.action(strTip);
+            fragmentListener.addToList(tipRecord);
 
             txtTip.setVisibility(View.VISIBLE);
             txtTip.setText(strTip);
@@ -104,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.btnClear)
     public void handleClickClear(){
         hideKeyboard();
+        fragmentListener.clearList();
     }
 
     private void hideKeyboard(){

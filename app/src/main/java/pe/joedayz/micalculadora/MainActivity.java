@@ -9,10 +9,13 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import pe.joedayz.micalculadora.fragment.TipHistoryListFragment;
+import pe.joedayz.micalculadora.fragment.TipHistoryListFragmentListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final static int TIP_STEP_CHANGE = 1;
     private final static int DEFAULT_TIP_PERCENTAGE = 10;
+    private TipHistoryListFragmentListener fragmentListener;
 
 
     @Override
@@ -36,7 +40,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+
+        TipHistoryListFragment fragment = (TipHistoryListFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentList);
+        fragment.setRetainInstance(true);
+        fragmentListener = (TipHistoryListFragmentListener)fragment;
+
    }
+
+
+
 
     @OnClick(R.id.btnSubmit)
     public void handleClickSubmit(){
@@ -50,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
 
 
             String strTip = String.format(getString(R.string.global_message_tip), tip);
+
+            fragmentListener.action(strTip);
 
             txtTip.setVisibility(View.VISIBLE);
             txtTip.setText(strTip);
